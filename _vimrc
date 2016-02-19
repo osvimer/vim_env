@@ -452,8 +452,7 @@ map M :call ShowMan()<CR>
 map <F8> :ConqueTermSplit bash<CR>
 nmap tl :Tlist<cr>
 
-"新浪微博
-"let g:weibo_access_token =''
+"let g:weibo_access_token ='B00F6F17D9D3B4A1B9360283A29C1BF2'
 let twitvim_browser_cmd = 'chromium'
 
 "vim-powerline setting
@@ -465,3 +464,43 @@ set pastetoggle=<F9>
 "markdown
 let g:vim_markdown_folding_disabled=1
 
+"进行版权声明的设置
+"添加或更新头
+map <F10> :call TitleDet()<cr>'s
+function AddTitle()
+    call append(0,"/*=========================================================")
+    call append(1,"* Author         : Junjie Huang")
+    call append(2,"* Email          : acmhjj@gmail.com")
+    call append(3,"* Last modified  : ".strftime("%Y-%m-%d %H:%M"))
+    call append(4,"* Filename       : ".expand("%:t"))
+    call append(5,"* Description    : ")
+    call append(6,"=========================================================*/")
+    echohl WarningMsg | echo "Successful in adding the copyright." | echohl None
+endf
+"更新最近修改时间和文件名
+function UpdateTitle()
+    normal m'
+    execute '/* *Last modified  :/s@:.*$@\=strftime(": %Y-%m-%d %H:%M")@'
+    normal ''
+    normal mk
+    execute '/* *Filename       :/s@:.*$@\=": ".expand("%:t")@'
+    execute "noh"
+    normal 'k
+    echohl WarningMsg | echo "Successful in updating the copy right." | echohl None
+endfunction
+"判断前7行代码里面，是否有Last modified这个单词，
+"如果没有的话，代表没有添加过作者信息，需要新添加；
+"如果有的话，那么只需要更新即可
+function TitleDet()
+    let n=1
+    "默认为添加
+    while n < 7
+        let line = getline(n)
+        if line =~ '^\*\s*\S*Last\smodified\s\s:\s\S*.*$'
+            call UpdateTitle()
+            return
+        endif
+        let n = n + 1
+    endwhile
+    call AddTitle()
+endfunction
