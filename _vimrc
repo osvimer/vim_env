@@ -1,3 +1,69 @@
+"wangdao cpp setting by haohb13
+"----------------------------"
+"----------Vundle------------"
+"----------------------------"
+set nocompatible
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#rc()
+
+" Let Vundle manage itself
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'majutsushi/tagbar'
+
+"Plugin 'Valloric/YouCompleteMe'
+
+call vundle#end()
+filetype plugin indent on
+
+
+"let g:auto_save = 1
+
+"----------------------------"
+"--------   NERDTree  -------"
+"----------------------------"
+"set shortcut key
+"map <F4> :NERDTreeMirror<CR>
+"map <F4> :NERDTreeToggle<CR>
+
+"----------------------------"
+"--------    CtrlP    -------"
+"----------------------------"
+let g:ctrlp_map = ',,'
+let g:ctrlp_open_multiple_files = 'v'
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git)$',
+  \ 'file': '\v\.(log|jpg|png|jpeg)$',
+  \ }
+
+"----------------------------"
+"--------  pathogen   -------"
+"----------------------------"
+"execute pathogen#infect()
+
+"----------------------------"
+"--------  Syntastic  -------"
+"----------------------------"
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"----------------------------"
+"------------tagbar----------"
+"----------------------------"
+nmap <F11> :TagbarToggle<CR>
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 一般设定
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -20,7 +86,7 @@ set confirm
 set clipboard+=unnamed
 
 " 侦测文件类型
-filetype on
+" filetype on
 
 " 载入文件类型插件
 filetype plugin on
@@ -466,6 +532,7 @@ let g:vim_markdown_folding_disabled=1
 
 "进行版权声明的设置
 "添加或更新头
+"autocmd BufNewFile *.[ch],*.hpp,*.cpp,*.cc exec ":call TitleDet()"
 map <F10> :call TitleDet()<cr>'s
 function AddTitle()
     call append(0,"/*=========================================================")
@@ -488,6 +555,7 @@ function UpdateTitle()
     normal 'k
     echohl WarningMsg | echo "Successful in updating the copy right." | echohl None
 endfunction
+
 "判断前7行代码里面，是否有Last modified这个单词，
 "如果没有的话，代表没有添加过作者信息，需要新添加；
 "如果有的话，那么只需要更新即可
